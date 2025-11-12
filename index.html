@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주문 안 하신 쓰레기 나왔습니다</title>
+<style>
+@font-face {
+  font-family: 'HSBombaram';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
+}
+
+body {
+  text-align: center;
+  font-family: MaruBuri;
+  margin: 0;
+  overflow: hidden;
+  cursor: url('cursor.png') 40 40, auto;
+  background: url(bg.png);
+  background-size: cover;
+}
+
+div { position: relative; margin: 0; }
+
+img { position: absolute; }
+
+h1 {
+  font-family: "HsBombaram";
+  font-weight: normal;
+  font-size: 170px;
+  padding: 10px;
+  margin: 0;
+  transition: opacity 0.6s ease;
+}
+
+p {
+  font-family: 'MaruBuri';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+@keyframes spin {
+  from {transform: translateX(-50%) rotate(0deg);}
+  to {transform: translateX(-50%) rotate(360deg);}
+}
+
+.wrap {
+  width: 800px;
+  background: white;
+  margin: auto;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 2500;
+  padding: 50px 30px;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.wrap.show {
+  display: block;
+  opacity: 0.9;
+  pointer-events: auto;
+}
+
+button {
+  background-color: yellow;
+  color: purple;
+  font-weight: 700;
+  font-family: 'MaruBuri';
+  padding: 10px 20px;
+  border: none;
+  cursor: url('cursor.png') 40 40, auto;
+  transition: opacity 0.6s ease, background-color 0.3s, color 0.3s;
+}
+
+button:hover {
+  background-color: yellowgreen;
+  color: yellow;
+}
+
+.hint { margin: auto;
+		width: 100px;
+		height: 40px;
+		font-size: 12px;
+		font-weight: 700;
+		color: purple;
+		padding-top: 10px;
+		}
+
+.hint:hover{
+	color: yellowgreen;
+}
+
+/* 파닥거리기 */
+.jump { transition: transform 0.2s; z-index: 2000; }
+.jump:hover { animation: bounce 0.5s ease; }
+
+@keyframes bounce {
+  0%   { transform: translateY(0) rotate(0deg); }
+  15%  { transform: translateY(-40px) rotate(-10deg); }
+  30%  { transform: translateY(-60px) rotate(10deg); }
+  45%  { transform: translateY(-70px) rotate(-8deg); }
+  60%  { transform: translateY(-50px) rotate(6deg); }
+  75%  { transform: translateY(-20px) rotate(-3deg); }
+  100% { transform: translateY(0) rotate(0deg); }
+}
+
+/* rotate */
+.rotate { transition: transform 0.2s; transform-origin: center; }
+.rotate:hover { animation: rotate 0.5s ease; }
+
+@keyframes rotate {
+  0%   { transform: translateX(-50%) rotate(0deg); }
+  15%  { transform: translateX(-50%) rotate(-10deg); }
+  30%  { transform: translateX(-50%) rotate(10deg); }
+  45%  { transform: translateX(-50%) rotate(-8deg); }
+  60%  { transform: translateX(-50%) rotate(6deg); }
+  75%  { transform: translateX(-50%) rotate(-3deg); }
+  100% { transform: translateX(-50%) rotate(0deg); }
+}
+</style>
+</head>
+<body>
+
+<div id="main">
+  <h1>주문 안 하신<br>쓰레기 나왔습니다!</h1>
+  <img src="bgtrash.png" style="width: 1520px; z-index: -1; top: -110px; left: 50%; transform: translateX(-50%); animation: spin 20s linear infinite;">
+  <div style="position: absolute; left: 50%; transform: translateX(-50%); top: 520px; z-index: 1200;">
+    <button id="btn">Click to start</button>
+  </div>
+</div>
+
+<!-- 다른 이미지들은 main 외부에 두어 위치 고정 -->
+<img src="table.png" style="width: 1600px; z-index: 600; top: 630px; left: 0px;">
+<img src="trash.png" class="rotate" style="width: 420px; z-index: 1000; top: 310px; left: 50%; transform: translateX(-50%);">      
+<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+
+<img src="small1.png" class="jump" style="width: 240px; top: 520px; left: 50px;">
+<img src="small2.png" class="jump" style="width: 180px; top: 570px; left: 1230px;">
+<img src="small3.png" class="jump" style="width: 140px; top: 680px; left: 310px;">
+
+
+  <div id="wrapBox" class="wrap">
+  	<p style="font-weight: 600; padding-bottom: 10px;">"주문 안 하신 쓰레기 나왔습니다!"</p>
+    <p>
+      저희 레스토랑에서는 최선을 다해 정성껏 빚은 쓰레기들을 제공합니다.<br>
+      주문하신 적이 없다고요? 당신이 주문했든 아니든 이것들은 세상에 나와 존재합니다.<br>
+      고로 자신들을 음미해줄 이들을 필요로 하지요.<br>
+      누군가의 피땀과 정성이 어린, 그러나 빛을 보지 못한 소소하고 귀한 재료들.<br>
+      천천히 곱씹으며 그 맛을 함께 즐겨 주시면 감사하겠습니다.
+    </p>
+    <div id="hint" class="hint">계속 ▸</div>
+  </div>
+
+
+<script>
+const btn = document.getElementById("btn");
+const main = document.getElementById("main");
+const wrapBox = document.getElementById("wrapBox");
+
+btn.addEventListener("click", () => {
+  const h1 = main.querySelector('h1');
+  h1.style.opacity = '0';
+  btn.style.opacity = '0';
+
+  setTimeout(() => {
+    wrapBox.classList.add("show");
+  }, 600);
+});
+</script>
+
+</body>
+</html>
