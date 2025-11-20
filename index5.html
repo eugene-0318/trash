@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>주문 안 하신 쓰레기 나왔습니다</title>
+
+	<style>
+@font-face {
+  font-family: 'HSBombaram';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
+}
+
+body {
+  text-align: center;
+  font-family: MaruBuri;
+  margin: 0;
+  overflow: hidden;
+  cursor: url('cursor.png') 40 40, auto;
+  background: palevioletred;
+  background-size: cover;
+}
+
+div { position: relative; margin: 0; }
+
+img { position: absolute; }
+
+h1 {
+  font-family: "HsBombaram";
+  font-weight: normal;
+  font-size: 170px;
+  padding: 10px;
+  margin: 0;
+  transition: opacity 0.6s ease;
+}
+
+p {
+  font-family: 'MaruBuri';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.wrap {
+  width: 800px;
+  background: white;
+  margin: auto;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+  z-index: 2500;
+  padding: 50px 30px;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.wrap.show {
+  display: block;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.hint { margin: auto;
+		width: 100px;
+		height: 40px;
+		font-size: 12px;
+		font-weight: 700;
+		color: purple;
+		padding-top: 10px;
+		}
+
+.hint:hover{
+	color: yellowgreen;
+}
+
+</style>
+
+</head>
+<body>
+
+<div>
+	<img src="table.png" style="width: 1600px; z-index: 600; top: 630px; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+</div>
+</body>
+</html>

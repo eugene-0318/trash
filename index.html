@@ -22,7 +22,7 @@ body {
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
-  background: url(bg.png);
+  background: orange;
   background-size: cover;
 }
 
@@ -66,7 +66,7 @@ p {
 
 .wrap.show {
   display: block;
-  opacity: 0.9;
+  opacity: 1;
   pointer-events: auto;
 }
 
@@ -174,7 +174,13 @@ btn.addEventListener("click", () => {
   setTimeout(() => {
     wrapBox.classList.add("show");
   }, 600);
+
+    hint.addEventListener("click", () => {
+    window.location.href = "index2.html";
+  });
 });
+
+
 </script>
 
 </body>

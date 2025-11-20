@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>주문 안 하신 쓰레기 나왔습니다</title>
+
+	<style>
+@font-face {
+  font-family: 'HSBombaram';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
+}
+
+#loadingOverlay {
+  position: fixed;
+  inset: 0;                 /* top:0; right:0; bottom:0; left:0 동일 */
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+#loadingIcon {
+  width: 150px;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  margin-top: 150px;
+  font-size: 20px;
+  color: yellow;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+body {
+  text-align: center;
+  font-family: MaruBuri;
+  margin: 0;
+  overflow: hidden;
+  cursor: url('cursor.png') 40 40, auto;
+  background: dimgray;
+  background-size: cover;
+}
+
+div { position: relative; margin: 0; }
+
+img { position: absolute; }
+
+h1 {
+  font-family: "HsBombaram";
+  font-weight: normal;
+  font-size: 170px;
+  padding: 10px;
+  margin: 0;
+  transition: opacity 0.6s ease;
+}
+
+p {
+  font-family: 'MaruBuri';
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 1.7;
+}
+.wrap {
+	opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  background: white;
+  transition: opacity 0.6s ease;
+  z-index: 2500;
+  padding: 50px 30px;
+  pointer-events: auto;
+}
+
+
+#hint {
+  margin: auto;
+  width: 100px;
+  height: 40px;
+  font-size: 12px;
+  font-weight: 700;
+  color: purple;
+  padding-top: 10px;
+}
+#hint:hover {
+  color: yellowgreen;
+}
+
+
+.fade-out {
+  opacity: 0 !important;
+}
+
+#mainscreen {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  position: absolute;
+  inset: 0; /* 화면 전체 사용 */
+}
+
+.fade-in {
+  opacity: 1 !important;
+}
+
+.trash:hover{
+	filter: drop-shadow(0px 0px 10px white)
+}
+.trash2:hover{
+	filter: drop-shadow(0px 0px 10px black)
+}
+
+.smoke {
+  position: fixed; /* body 전체 기준 */
+  left: 0;
+  top: 0;
+  width: 80vw;    
+  height: 80vh;  
+  pointer-events: none;
+  background-image:url(smoke.png); no-repeat center/cover;
+  opacity: 0.5;
+  animation: rise 4s linear forwards;
+}
+
+@keyframes rise {
+  0% {
+    transform: translateY(50%) scale(1);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-50%) scale(1.2);
+    opacity: 0;
+  }
+}
+
+button{cursor: url('cursor.png') 40 40, auto;}
+
+.next {
+	position: absolute;
+	top: 85%;
+	left: 87%;
+	transform: translate(-50%, -50%);
+	font-family: MaruBuri;
+    margin-top: 30px;
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    background-color: #fff;
+    color: #000;
+    pointer-events: auto;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 10000;
+}
+
+	.next:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+</style>
+
+</head>
+<body>
+<div id="loadingOverlay">
+  <img src="bgtrash.png" id="loadingIcon">
+  <div class="loadingText">Loading...</div>
+</div>
+
+<div>
+	<img src="table.png" style="width: 1600px; z-index: 600; top: 630px; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+</div>
+  <div id="wrapBox" class="wrap">
+  	<p style="font-weight: 600; padding-bottom: 10px;">Appetizer</p>
+    <p>
+      피조물의 탄생에는 늘 고뇌와 밤샘이 함께하죠.<br>본격적인 작업을 시작하기도 전에 아이디어가 떠오르지 않아 갑갑한 마음,<br>다들 한번쯤 경험해 보신 적 있지 않나요?<br>답답한 마음을 달래고자 피운 담배꽁초에<br>잠을 쫓기 위해 커피를 마시고 남은 플라스틱 잔을 곁들이면<br>그 마음을 표현하기에는 부족함이 없습니다.
+    </p>
+    <div id="hint" class="hint">계속 ▸</div>
+  </div>
+  <div id="mainscreen">
+  	<img src="cig 1.png" style="width: 150px; top: 81%;
+  left: 41%; transform: translate(-50%, -50%); z-index: 1002;" class="trash2">
+  	<img src="cig 2.png" style="width: 200px; top: 83%;
+  left: 56%; transform: translate(-50%, -50%); z-index: 1001;" class="trash2">
+  	<img src="cup1.png" style="width: 230px; top: 66%;
+  left: 44%; transform: translate(-50%, -50%); z-index: 999;" class="trash">
+  	<img src="cup2.png" style="width: 180px; top: 68%;
+  left: 54%; transform: translate(-50%, -50%); z-index: 1000;" class="trash">
+  	 <button id="next" class="next">Done!</button>
+
+  </div>
+<script>
+  const hint = document.getElementById('hint');
+  const wrapBox = document.getElementById('wrapBox');
+  const mainScreen = document.getElementById('mainscreen');
+  const overlay = document.getElementById('loadingOverlay');
+
+  /* 로딩 처리: 오버레이 fade-out 과 동시에 wrap fade-in */
+  window.addEventListener("load", () => {
+    const MIN = 1500; // 최소 1.5초
+    setTimeout(() => {
+      // 오버레이를 서서히 사라지게
+      overlay.style.opacity = "0";
+
+      // wrap을 동시에 서서히 보이게
+      wrapBox.classList.add('fade-in');
+
+      // 오버레이를 DOM에서 제거(transition 시간과 같거나 약간 더 길게)
+      setTimeout(() => {
+        overlay.style.display = "none";
+      }, 650); 
+    }, MIN);
+  });
+
+  /* hint 클릭 → wrap 사라지고 mainscreen 나타남 */
+ hint.addEventListener("click", () => {
+    // wrapBox가 보여진 상태인지 확인 후 fade-out
+    wrapBox.classList.remove("fade-in"); // 필요 시 제거
+    wrapBox.classList.add("fade-out");
+    
+    setTimeout(() => {
+      wrapBox.style.display = "none";
+      mainScreen.classList.add("fade-in");
+    }, 650); // fade-out 시간과 동일
+});
+
+    // 연기 생성 함수 (여러 입자)
+function createFullScreenSmoke(count = 50) {
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
+
+  for (let i = 0; i < count; i++) {
+    const smoke = document.createElement("div");
+    smoke.classList.add("smoke");
+
+    // 화면 전체 랜덤 위치
+    smoke.style.left = `${Math.random() * vw}px`;
+    smoke.style.top = `${Math.random() * vh}px`;
+
+    // 랜덤 크기, 속도, 회전
+    const scale = 0.5 + Math.random() * 1.5;
+    const duration = 2 + Math.random() * 3; // 2~5초
+    const rotation = Math.random() * 360;
+
+    smoke.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
+    smoke.style.animationDuration = `${duration}s`;
+
+    document.body.appendChild(smoke);
+
+    smoke.addEventListener("animationend", () => smoke.remove());
+  }
+}
+
+// cig 클릭 이벤트
+document.querySelectorAll(".trash2").forEach(img => {
+  img.addEventListener("click", () => {
+    createFullScreenSmoke(60); // 한 번에 60개의 입자
+  });
+});
+
+ function createTiredBackground() {
+      const images = ['tired1.png', 'tired2.png', 'tired3.png'];
+      const img = images[Math.floor(Math.random() * images.length)];
+
+      const bg = document.createElement('div');
+      bg.style.position = 'fixed';
+      bg.style.inset = '0';
+      bg.style.backgroundImage = `url(${img})`;
+      bg.style.backgroundSize = 'cover';
+      bg.style.backgroundPosition = 'center';
+      bg.style.backgroundRepeat = 'no-repeat';
+      bg.style.opacity = '0';
+      bg.style.zIndex = '-1';
+      bg.style.transition = 'opacity 0.8s ease';
+
+      document.body.appendChild(bg);
+
+      requestAnimationFrame(() => bg.style.opacity = '1');
+
+      setTimeout(() => {
+        bg.style.opacity = '0';
+        bg.addEventListener('transitionend', () => bg.remove());
+      }, 1500);
+    }
+
+    document.querySelectorAll('.trash').forEach(img => {
+      img.addEventListener('click', () => createTiredBackground());
+    });
+
+                next.addEventListener("click", () => {
+                window.location.href = "index3.html";
+            });
+
+</script>
+
+</body>
+</html>
