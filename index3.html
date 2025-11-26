@@ -124,7 +124,7 @@ p {
   pointer-events: none;
   opacity: 1;
   transition: transform 1.5s ease-out;
-  z-index: 9999;
+  z-index: 1000;
   white-space: pre;
 }
 
@@ -157,7 +157,7 @@ p {
   animation: glitchAnim 0.5s linear;
 }
 
-button{cursor: url('cursor.png') 40 40, auto;}
+button{cursor: url('cursor.png') 40 40, auto; z-index: 15000;}
 
 .next {
   position: absolute;
@@ -174,7 +174,7 @@ button{cursor: url('cursor.png') 40 40, auto;}
     color: purple;
     pointer-events: auto;
     transition: background-color 0.3s, color 0.3s;
-    z-index: 10000;
+    z-index: 15000;
 }
 
   .next:hover {
@@ -191,7 +191,7 @@ button{cursor: url('cursor.png') 40 40, auto;}
   <div class="loadingText">Loading...</div>
 </div>
 <div>
-	<img src="table.png" style="width: 1600px; z-index: 600; top: 630px; left: 0px;">     
+	<img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
 <img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
 </div>
   <div id="wrapBox" class="wrap">
@@ -202,8 +202,8 @@ button{cursor: url('cursor.png') 40 40, auto;}
     </p>
     <div id="hint" class="hint">계속 ▸</div>
   </div>
-  <div id="mainscreen">
-    <img src="main1.png" style="width: 500px; position: absolute; transform: translateX(-50%); top: 44%; z-index: 2000;" class="distort trash glitch">
+  <div id="mainscreen" style="z-index: 2000;">
+    <img src="main1.png" style="width: 580px; position: absolute; transform: translateX(-50%); top: 38%;" class="trash glitch">
      <button id="next" class="next">Done!</button>
   </div>
 
@@ -213,6 +213,9 @@ const hint = document.getElementById('hint');
 const wrapBox = document.getElementById('wrapBox');
 const mainScreen = document.getElementById('mainscreen');
 const overlay = document.getElementById('loadingOverlay');
+const texts = [
+  '?', '이게 맞나...', '아닌가 이건가?', '아닌 거 같은데...', '다시 해야겠다.', '?'
+];
 
 /* 로딩 처리: 오버레이 fade-out 과 동시에 wrap fade-in */
 window.addEventListener("load", () => {
@@ -266,10 +269,10 @@ mainImage.addEventListener('click', (e) => {
   for (let i = 0; i < count; i++) {
     const q = document.createElement('div');
     q.className = 'question';
-    q.textContent = '?';
+     q.textContent = texts[Math.floor(Math.random() * texts.length)];
 
     // 랜덤 크기 (20px~80px)
-    const size = 20 + Math.random() * 60;
+    const size = 15 + Math.random() * 40;
     q.style.fontSize = `${size}px`;
 
     // 랜덤 색
