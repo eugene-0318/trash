@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>주문 안 하신 쓰레기 나왔습니다</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>주문 안 하신 쓰레기 나왔습니다</title>
 
-	<style>
+  <style>
 @font-face {
   font-family: 'HSBombaram';
   src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_one@1.0/HSBombaram.woff') format('woff');
@@ -15,6 +15,33 @@
 @font-face {
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
+}
+#loadingOverlay {
+  position: fixed;
+  inset: 0;  
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+#loadingIcon {
+  width: 150px;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  margin-top: 150px;
+  font-size: 20px;
+  color: yellow;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 body {
@@ -46,17 +73,19 @@ p {
   font-size: 15px;
   line-height: 1.7;
 }
+
 .wrap {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 800px;
   background: white;
-  margin: auto;
-  opacity: 0;
   transition: opacity 0.6s ease;
   z-index: 2500;
   padding: 50px 30px;
-  transform: translateX(-50%);
-  transform: translateY(-50%);
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .wrap.show {
@@ -66,26 +95,116 @@ p {
 }
 
 .hint { margin: auto;
-		width: 100px;
-		height: 40px;
-		font-size: 12px;
-		font-weight: 700;
-		color: purple;
-		padding-top: 10px;
-		}
+    width: 100px;
+    height: 40px;
+    font-size: 12px;
+    font-weight: 700;
+    color: dimgray;
+    padding-top: 10px;
+    }
 
 .hint:hover{
-	color: yellowgreen;
+  color: gainsboro;
+}
+
+.fade-out {
+  opacity: 0 !important;
+}
+
+#mainscreen {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  position: absolute;
+  inset: 0;
+}
+
+.fade-in {
+  opacity: 1 !important;
+}
+
+
+button{cursor: url('cursor.png') 40 40, auto;}
+
+.next {
+  position: absolute;
+  top: 85%;
+  left: 87%;
+  transform: translate(-50%, -50%);
+  font-family: MaruBuri;
+    margin-top: 30px;
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    background-color: white;
+    color: black;
+    pointer-events: auto;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 10000;
+}
+
+  .next:hover {
+    background-color: dimgray;
+    color: gainsboro;
 }
 
 </style>
 
 </head>
 <body>
-
+<div id="loadingOverlay">
+  <img src="bgtrash.png" id="loadingIcon">
+  <div class="loadingText">Loading...</div>
+</div>
 <div>
-	<img src="table.png" style="width: 1600px; z-index: 600; top: 630px; left: 0px;">     
+  <img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
 <img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
 </div>
+  <div id="wrapBox" class="wrap">
+    <p style="font-weight: 600; padding-bottom: 10px;">Dessert</p>
+    <p>
+이렇게 프로젝트 하나가 끝났습니다.<br>후련하긴 한데…이 기분은 뭐죠?<br>마냥 기쁘지는 않은 허전함, 허무함이 감돕니다.<br>눈앞에는 공들여 만들었고 괜찮은 평가를 받은 과제물이 있지만, 그뿐입니다.<br>우리는 조금 전까지 뭘 해왔던 걸까요?
+
+    </p>
+    <div id="hint" class="hint">계속 ▸</div>
+  </div>
+  <div id="mainscreen" style="z-index: 2000;">
+     <img src="main2.png" style="width: 640px; position: absolute; transform: translateX(-50%); top: 18%; z-index: 2000;" >
+  <button id="next" class="next">Done!</button>
+  </div>
+<script>
+  const hint = document.getElementById('hint');
+const wrapBox = document.getElementById('wrapBox');
+const mainScreen = document.getElementById('mainscreen');
+const overlay = document.getElementById('loadingOverlay');
+window.addEventListener("load", () => {
+  const MIN = 1500; // 최소 1.5초
+  setTimeout(() => {
+    overlay.style.opacity = "0";
+    wrapBox.classList.add('fade-in');
+
+    setTimeout(() => {
+      overlay.style.display = "none";
+    }, 650); 
+  }, MIN);
+});
+
+/* hint 클릭 → wrap 사라지고 mainscreen 나타남 */
+hint.addEventListener("click", () => {
+  wrapBox.classList.remove("fade-in");
+  wrapBox.classList.add("fade-out");
+  
+  setTimeout(() => {
+    wrapBox.style.display = "none";
+    mainScreen.classList.add("fade-in");
+  }, 650);
+});
+
+                next.addEventListener("click", () => {
+                window.location.href = "index7.html";
+            });
+
+
+</script>
 </body>
 </html>

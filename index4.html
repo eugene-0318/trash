@@ -16,6 +16,33 @@
   font-family: 'MaruBuri';
   src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
 }
+#loadingOverlay {
+  position: fixed;
+  inset: 0; 
+  background: black;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  transition: opacity 0.6s ease;
+}
+
+#loadingIcon {
+  width: 150px;
+  animation: spin 1s linear infinite;
+}
+
+.loadingText {
+  margin-top: 150px;
+  font-size: 20px;
+  color: yellow;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
 
 body {
   text-align: center;
@@ -23,7 +50,7 @@ body {
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
-  background: purple;
+  background: tomato;
   background-size: cover;
 }
 
@@ -46,17 +73,19 @@ p {
   font-size: 15px;
   line-height: 1.7;
 }
+
 .wrap {
+  opacity: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   width: 800px;
   background: white;
-  margin: auto;
-  opacity: 0;
   transition: opacity 0.6s ease;
   z-index: 2500;
   padding: 50px 30px;
-  transform: translateX(-50%);
-  transform: translateY(-50%);
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .wrap.show {
@@ -70,22 +99,236 @@ p {
 		height: 40px;
 		font-size: 12px;
 		font-weight: 700;
-		color: purple;
+		color: teal;
 		padding-top: 10px;
 		}
 
 .hint:hover{
-	color: yellowgreen;
+	color: peachpuff;
+}
+
+.fade-out {
+  opacity: 0 !important;
+}
+
+#mainscreen {
+  opacity: 0;
+  transition: opacity 0.8s ease;
+  position: absolute;
+  inset: 0; /* 화면 전체 사용 */
+}
+
+.fade-in {
+  opacity: 1 !important;
+}
+.trash:hover{
+  filter: drop-shadow(0px 0px 10px white)}
+
+
+button{cursor: url('cursor.png') 40 40, auto;}
+
+.next {
+  position: absolute;
+  top: 85%;
+  left: 87%;
+  transform: translate(-50%, -50%);
+  font-family: MaruBuri;
+    margin-top: 30px;
+    padding: 12px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    background-color: peachpuff;
+    color: teal;
+    pointer-events: auto;
+    transition: background-color 0.3s, color 0.3s;
+    z-index: 10000;
+}
+
+  .next:hover {
+    background-color: lightseagreen;
+    color: tomato;
+}
+
+/* 글리치 텍스트 */
+#flashText {
+  position: fixed;
+  font-size: 60px;
+  font-weight: bold;
+  opacity: 0;
+  pointer-events: none;
+  font-family: HSBombaram;
+  color: white;
+  text-shadow: 2px 0 red, -2px 0 cyan;
+  transition: opacity 0.25s ease-out;
+  z-index: 4000;
+  word-break: break-word;
+  text-align: center;
+  white-space: normal;
+  line-height: 1.6;
+  display: inline-block;
+  transform: translate(-50%, -50%);
+}
+
+/* 글리치 효과 */
+.glitchShake { animation: glitchShakeAnim 0.15s infinite steps(2); }
+.glitchMedium { text-shadow: 4px 0 red, -4px 0 cyan; animation-duration: 0.1s; }
+.glitchHard { text-shadow: 6px 0 red, -6px 0 cyan, 0px 2px lime; animation: glitchHardAnim 0.08s infinite steps(2); }
+@keyframes glitchHardAnim {
+  0% { transform: translate(-50%, -50%) scale(1.1) translate(-6px, 2px); }
+  50% { transform: translate(-50%, -50%) scale(1.05) translate(6px, -2px); }
+  100% { transform: translate(-50%, -50%) scale(1.15) translate(-3px, -1px); }
+}
+
+/* 화면 플래시 */
+#glitchFlash {
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none; opacity: 0; z-index: 999;
+  background: repeating-linear-gradient(0deg, rgba(255,255,255,0.3) 0px, rgba(255,255,255,0.3) 2px, rgba(0,0,0,0.3) 3px);
+  mix-blend-mode: screen;
+  transform: translateY(0);
+}
+.glitchActive { animation: glitchFlashAnim 0.35s steps(2) forwards; }
+@keyframes glitchFlashAnim { 
+  0% { opacity:1; transform: translateY(-10px);} 
+  20%{opacity:0.6; transform:translateY(5px);} 
+  40%{opacity:1;transform:translateY(-3px);} 
+  60%{opacity:0.5; transform:translateY(2px);} 
+  100%{opacity:0; transform:translateY(0);} }
+.glitchFlashStrong { animation: strongFlashAnim 0.4s steps(3) forwards; }
+@keyframes strongFlashAnim { 
+  0%{opacity:1; filter:contrast(200%) brightness(200%);}
+  40%{opacity:0.8;filter:contrast(400%) brightness(300%);}
+  100%{opacity:0;filter:contrast(800%) brightness(600%);} }
+
+#invertOverlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  pointer-events: none;
+  z-index: 10000;
+  background: white;    
+  mix-blend-mode: difference;    
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+#invertOverlay.invertActive {
+  opacity:1; z-index: 8000;
 }
 
 </style>
 
 </head>
 <body>
-
+<div id="loadingOverlay">
+  <img src="bgtrash.png" id="loadingIcon">
+  <div class="loadingText">Loading...</div>
+</div>
 <div>
-	<img src="table.png" style="width: 1600px; z-index: 600; top: 630px; left: 0px;">     
+	<img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
 <img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
 </div>
+  <div id="wrapBox" class="wrap">
+    <p style="font-weight: 600; padding-bottom: 10px;">2nd Main Menu</p>
+    <p>
+  드디어 결과물을 평가받는 날!<br>그런데…이런, 피드백이 긍정적이지는 못하군요.<br>내 눈에도 보이는 결점, 내 눈에는 안 보였던 결점…<br>여기저기 썰리고 찍히는 살벌한 피드백이네요.<br>아무래도 여기저기 고쳐서 다시 만들어야 할 것 같아요.
+    </p>
+    <div id="hint" class="hint">계속 ▸</div>
+  </div>
+  <div id="mainscreen" style="z-index: 2000;">
+     <img src="main2.png" style="width: 560px; position: absolute; transform: translateX(-50%); top: 24%; z-index: 2000;" class="trash" id="triggerImg">
+     <div id="invertOverlay"></div>
+     <div id="glitchFlash"></div>
+<div id="flashText"></div>
+<div id="scratchLayer" style="
+position:fixed;top:0;left:0;width:100vw;height:100vh;
+pointer-events:none;z-index:1500;"></div>
+  <button id="next" class="next">Done!</button>
+  </div>
+<script>
+const hint = document.getElementById('hint');
+const wrapBox = document.getElementById('wrapBox');
+const mainScreen = document.getElementById('mainscreen');
+const overlay = document.getElementById('loadingOverlay');
+const img = document.getElementById("triggerImg");
+const flash = document.getElementById("glitchFlash");
+const flashText = document.getElementById("flashText");
+const next = document.getElementById("next");
+const invertOverlay = document.getElementById("invertOverlay");
+const scratchLayer = document.getElementById("scratchLayer");
+
+// 로딩 처리
+window.addEventListener("load", () => {
+  setTimeout(() => {
+    overlay.style.opacity = "0";
+    wrapBox.classList.add('fade-in');
+    setTimeout(() => overlay.style.display="none", 650);
+  }, 1500);
+});
+
+// Wrap → Main
+hint.addEventListener("click", () => {
+  wrapBox.classList.remove("fade-in");
+  wrapBox.classList.add("fade-out");
+  setTimeout(()=>{
+    wrapBox.style.display="none";
+    mainScreen.classList.add("fade-in");
+  }, 650);
+});
+
+// 클릭 효과
+const texts = ["이건 왜\n이렇게 했지?","다시 생각해 봤으면\n좋겠는데...","조악하네요.","나는 잘 모르겠네.","조금 아쉽습니다.","한번만 다시\n만들어볼까?"];
+let clickCount = 0;
+const scratches = ["mouth1.png", "mouth2.png", "mouth3.png"];
+
+img.addEventListener("click", () => {
+  clickCount++;
+  const randomText = texts[Math.floor(Math.random() * texts.length)];
+  flashText.textContent = randomText;
+
+  // 랜덤 위치
+  const randX = Math.random() * 70 + 15;
+  const randY = Math.random() * 70 + 15;
+  flashText.style.left = randX + "vw";
+  flashText.style.top = randY + "vh";
+
+  // 글리치 효과
+  flashText.classList.add("glitchShake");
+  flash.classList.add("glitchActive");
+  if(clickCount >= 3) flashText.classList.add("glitchMedium");
+  if(clickCount >= 6) flashText.classList.add("glitchHard");
+  if(clickCount >= 6) flash.classList.add("glitchFlashStrong");
+
+  // 화면 전체 색반전
+  invertOverlay.classList.add("invertActive");
+  setTimeout(() => invertOverlay.classList.remove("invertActive"), 500);
+
+  flashText.style.opacity = 1;
+
+  // 0.5초 후 글리치 제거
+  setTimeout(() => {
+    flashText.style.opacity = 0;
+    flashText.classList.remove("glitchShake","glitchMedium","glitchHard");
+    flash.classList.remove("glitchActive","glitchFlashStrong");
+  }, 500);
+
+  const s = document.createElement("img");
+
+  s.src = scratches[Math.floor(Math.random()*scratches.length)];
+
+  const w = window.innerWidth;
+  const h = window.innerHeight;
+
+  s.style.position = "fixed";
+  s.style.left = Math.random() * (w - 200) + "px";
+  s.style.top = Math.random() * (h - 200) + "px";
+  s.style.width = "300px";
+  s.style.opacity = "0.7";
+  s.style.pointerEvents = "none";
+
+  scratchLayer.appendChild(s);
+});
+// Next 버튼
+next.addEventListener("click", () => window.location.href="index5.html");
+</script>
 </body>
 </html>
