@@ -169,7 +169,7 @@ button{cursor: url('cursor.png') 40 40, auto;}
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 2000;">
-     <img src="main2.png" style="width: 640px; position: absolute; transform: translateX(-50%); top: 18%; z-index: 2000;" >
+
   <button id="next" class="next">Done!</button>
   </div>
 <script>
@@ -178,7 +178,7 @@ const wrapBox = document.getElementById('wrapBox');
 const mainScreen = document.getElementById('mainscreen');
 const overlay = document.getElementById('loadingOverlay');
 window.addEventListener("load", () => {
-  const MIN = 1500; // 최소 1.5초
+  const MIN = 1000; // 최소 1.5초
   setTimeout(() => {
     overlay.style.opacity = "0";
     wrapBox.classList.add('fade-in');

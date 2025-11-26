@@ -219,7 +219,7 @@ const texts = [
 
 /* 로딩 처리: 오버레이 fade-out 과 동시에 wrap fade-in */
 window.addEventListener("load", () => {
-  const MIN = 1500; // 최소 1.5초
+  const MIN = 1000; // 최소 1.5초
   setTimeout(() => {
     overlay.style.opacity = "0";
     wrapBox.classList.add('fade-in');
