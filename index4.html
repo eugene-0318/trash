@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>주문 안 하신 쓰레기 나왔습니다</title>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/sunghyunzz/eulyoo1945/eulyoo1945.css"/>
 	<style>
 @font-face {
   font-family: 'HSBombaram';
@@ -12,10 +12,7 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
-}
+
 #loadingOverlay {
   position: fixed;
   inset: 0; 
@@ -46,7 +43,7 @@
 
 body {
   text-align: center;
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
@@ -68,9 +65,9 @@ h1 {
 }
 
 p {
-  font-family: 'MaruBuri';
+  font-family: 'eulyoo1945';
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.7;
 }
 
@@ -132,7 +129,7 @@ button{cursor: url('cursor.png') 40 40, auto;}
   top: 85%;
   left: 87%;
   transform: translate(-50%, -50%);
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
     margin-top: 30px;
     padding: 12px 30px;
     font-size: 18px;
@@ -224,25 +221,25 @@ button{cursor: url('cursor.png') 40 40, auto;}
   <div class="loadingText">Loading...</div>
 </div>
 <div>
-	<img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
-<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+  <img src="table.png" style="width: 100vw; z-index: 600; top: 40vw; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 31vw; left: 50%; transform: translateX(-50%);">
 </div>
   <div id="wrapBox" class="wrap">
-    <p style="font-weight: 600; padding-bottom: 10px;">2nd Main Menu</p>
+    <p style="font-weight: 600; padding-bottom: 10px;">메인 디시 2</p>
     <p>
   드디어 결과물을 평가받는 날!<br>그런데…이런, 피드백이 긍정적이지는 못하군요.<br>내 눈에도 보이는 결점, 내 눈에는 안 보였던 결점…<br>여기저기 썰리고 찍히는 살벌한 피드백이네요.<br>아무래도 여기저기 고쳐서 다시 만들어야 할 것 같아요.
     </p>
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 2000;">
-     <img src="main2.png" style="width: 560px; position: absolute; transform: translateX(-50%); top: 24%; z-index: 2000;" class="trash" id="triggerImg">
+     <img src="main2.png" style="width: 560px; position: absolute; transform: translateX(-50%); top: 23vh; z-index: 2000;" class="trash" id="triggerImg">
      <div id="invertOverlay"></div>
      <div id="glitchFlash"></div>
 <div id="flashText"></div>
 <div id="scratchLayer" style="
 position:fixed;top:0;left:0;width:100vw;height:100vh;
 pointer-events:none;z-index:1500;"></div>
-  <button id="next" class="next">Done!</button>
+  <button id="next" class="next">다음으로</button>
   </div>
 <script>
 const hint = document.getElementById('hint');

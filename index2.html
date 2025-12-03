@@ -4,7 +4,7 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<title>주문 안 하신 쓰레기 나왔습니다</title>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/sunghyunzz/eulyoo1945/eulyoo1945.css"/>
 	<style>
 @font-face {
   font-family: 'HSBombaram';
@@ -12,10 +12,7 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
-}
+
 
 #loadingOverlay {
   position: fixed;
@@ -47,7 +44,7 @@
 
 body {
   text-align: center;
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
@@ -69,9 +66,9 @@ h1 {
 }
 
 p {
-  font-family: 'MaruBuri';
+  font-family: 'eulyoo1945';
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.7;
 }
 .wrap {
@@ -158,7 +155,7 @@ button{cursor: url('cursor.png') 40 40, auto;}
 	top: 85%;
 	left: 87%;
 	transform: translate(-50%, -50%);
-	font-family: MaruBuri;
+	font-family: eulyoo1945;
     margin-top: 30px;
     padding: 12px 30px;
     font-size: 18px;
@@ -186,26 +183,26 @@ button{cursor: url('cursor.png') 40 40, auto;}
 </div>
 
 <div>
-	<img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
-<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+  <img src="table.png" style="width: 100vw; z-index: 600; top: 40vw; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 31vw; left: 50%; transform: translateX(-50%);">
 </div>
   <div id="wrapBox" class="wrap">
-  	<p style="font-weight: 600; padding-bottom: 10px;">Appetizer</p>
+  	<p style="font-weight: 600; padding-bottom: 10px;">애피타이저</p>
     <p>
       피조물의 탄생에는 늘 고뇌와 밤샘이 함께하죠.<br>본격적인 작업을 시작하기도 전에 아이디어가 떠오르지 않아 갑갑한 마음,<br>다들 한번쯤 경험해 보신 적 있지 않나요?<br>답답한 마음을 달래고자 피운 담배꽁초에<br>잠을 쫓기 위해 커피를 마시고 남은 플라스틱 잔을 곁들이면<br>그 마음을 표현하기에는 부족함이 없습니다.
     </p>
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 950;">
-  	<img src="cig 1.png" style="width: 150px; top: 81%;
-  left: 41%; transform: translate(-50%, -50%); z-index: 1002;" class="trash2">
-  	<img src="cig 2.png" style="width: 200px; top: 83%;
-  left: 56%; transform: translate(-50%, -50%); z-index: 1001;" class="trash2">
-  	<img src="cup1.png" style="width: 230px; top: 66%;
-  left: 44%; transform: translate(-50%, -50%); z-index: 999;" class="trash">
-  	<img src="cup2.png" style="width: 180px; top: 68%;
-  left: 54%; transform: translate(-50%, -50%); z-index: 1000;" class="trash">
-  	 <button id="next" class="next">Done!</button>
+  	<img src="cig 1.png" style="width: 150px; top: 79vh;
+  left: 42vw; transform: translate(-50%, -50%); z-index: 1002;" class="trash2">
+  	<img src="cig 2.png" style="width: 200px; top: 79vh;
+  left: 56vw; transform: translate(-50%, -50%); z-index: 1001;" class="trash2">
+  	<img src="cup1.png" style="width: 230px; top: 62vh;
+  left: 44vw; transform: translate(-50%, -50%); z-index: 999;" class="trash">
+  	<img src="cup2.png" style="width: 180px; top: 64vh;
+  left: 54vw; transform: translate(-50%, -50%); z-index: 1000;" class="trash">
+  	 <button id="next" class="next">다음으로</button>
 
   </div>
 <script>

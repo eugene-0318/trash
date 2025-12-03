@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>주문 안 하신 쓰레기 나왔습니다</title>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/sunghyunzz/eulyoo1945/eulyoo1945.css"/>
   <style>
 @font-face {
   font-family: 'HSBombaram';
@@ -12,10 +12,7 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
-}
+
 #loadingOverlay {
   position: fixed;
   inset: 0;  
@@ -46,7 +43,7 @@
 
 body {
   text-align: center;
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
@@ -68,9 +65,9 @@ h1 {
 }
 
 p {
-  font-family: 'MaruBuri';
+  font-family: 'eulyoo1945';
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.7;
 }
 
@@ -132,7 +129,7 @@ button{cursor: url('cursor.png') 40 40, auto;}
   top: 85%;
   left: 87%;
   transform: translate(-50%, -50%);
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
     margin-top: 30px;
     padding: 12px 30px;
     font-size: 18px;
@@ -201,19 +198,19 @@ button{cursor: url('cursor.png') 40 40, auto;}
   <div class="loadingText">Loading...</div>
 </div>
 <div>
-  <img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
-<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+  <img src="table.png" style="width: 100vw; z-index: 600; top: 40vw; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 31vw; left: 50%; transform: translateX(-50%);">
 </div>
   <div id="wrapBox" class="wrap">
-    <p style="font-weight: 600; padding-bottom: 10px;">Dessert</p>
+    <p style="font-weight: 600; padding-bottom: 10px;">디저트</p>
     <p>
 수정에 수정, 피드백에 피드백을 거쳐<br>마침내 가장 최선의 결과물이 탄생했습니다!<br>여러 아이디어와 시도들 중 가장 달달한 것만을 모아 빚어낸 결과물,<br>맛없을 수가 없습니다.<br>고생한 여러분은 이 단맛을 즐길 자격이 있습니다.
     </p>
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 2000;">
-     <img src="des.png" style="width: 380px; position: absolute; transform: translateX(-50%); top: 39%; z-index: 2000;" class="trash" id="dessertImg">
-  <button id="next" class="next">Done!</button>
+     <img src="des.png" style="width: 290px; position: absolute; transform: translateX(-50%); top: 49vh; z-index: 2000;" class="trash" id="dessertImg">
+  <button id="next" class="next">다음으로</button>
   </div>
 <script>
   const hint = document.getElementById('hint');
@@ -258,31 +255,35 @@ dessertImg.addEventListener("click", () => {
     dessertImg.style.animation = "";
   }, 500);
 
-  // 설탕 파우더 생성
-const sugarCount = 100; // 한 번에 60개
-for(let i = 0; i < sugarCount; i++){
-  const sugar = document.createElement("div");
-  sugar.classList.add("sugar");
+ for (let i = 0; i < 10; i++) {
+      const sugarImg = document.createElement("img");
+      sugarImg.src = "sugar.png";
+      sugarImg.style.position = "fixed";
 
-  const colors = ["salmon","sienna","hotpink","lightsalmon","sandybrown"];
-  sugar.style.background = colors[Math.floor(Math.random()*colors.length)];
+      const randX = Math.random() * window.innerWidth;
+      const randY = Math.random() * window.innerHeight;
+      sugarImg.style.left = `${randX}px`;
+      sugarImg.style.top = `${randY}px`;
 
-  const size = 3 + Math.random() * 10;
-  sugar.style.width = `${size}px`;
-  sugar.style.height = `${size}px`;
+      const size = 30 + Math.random() * 90;
+      sugarImg.style.width = `${size}px`;
+      const rotation = Math.random() * 360;
+sugarImg.style.transform = `rotate(${rotation}deg)`;
+const hue = Math.random() * 60 - 30;       // -30 ~ +30도 (톤이 크게 흐트러지지 않게)
+const bright = 0.9 + Math.random() * 0.3;  // 0.9 ~ 1.2 (살짝 밝기 변화)
+const satur = 0.9 + Math.random() * 0.3;   // 0.9 ~ 1.2 (미묘한 채도 변화)
 
-  const startX = Math.random() * window.innerWidth;
-  const wind = (Math.random() - 0.5) * 300;
+sugarImg.style.filter = `
+    hue-rotate(${hue}deg)
+    brightness(${bright})
+    saturate(${satur})
+`;
 
-  sugar.style.setProperty("--startX", `${startX}px`);
-  sugar.style.setProperty("--endX", `${startX + wind}px`);
+      sugarImg.style.pointerEvents = "none";
+      sugarImg.style.zIndex = "300";
 
-  sugar.style.setProperty("--duration", `${3 + Math.random()*4}s`); // 3~5초
-
-  document.body.appendChild(sugar);
-
-  setTimeout(() => sugar.remove(), 5000); // 알갱이가 완전히 떨어질 때까지 유지
-}
+      document.body.appendChild(sugarImg);
+  }
 
 
 window.addEventListener("mousemove", e=>{

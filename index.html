@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>주문 안 하신 쓰레기 나왔습니다</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/sunghyunzz/eulyoo1945/eulyoo1945.css"/>
 <style>
 @font-face {
   font-family: 'HSBombaram';
@@ -11,18 +12,14 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
-}
 
 body {
   text-align: center;
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
-  background: orange;
+  background: black;
   background-size: cover;
 }
 
@@ -33,16 +30,17 @@ img { position: absolute; }
 h1 {
   font-family: "HsBombaram";
   font-weight: normal;
-  font-size: 170px;
-  padding: 10px;
+  font-size: 140px;
+  padding: 40px;
   margin: 0;
   transition: opacity 0.6s ease;
+  color: white;
 }
 
 p {
-  font-family: 'MaruBuri';
+  font-family: 'eulyoo1945';
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.7;
 }
 
@@ -74,7 +72,7 @@ button {
   background-color: yellow;
   color: purple;
   font-weight: 700;
-  font-family: 'MaruBuri';
+  font-family: 'eulyoo1945';
   padding: 10px 20px;
   border: none;
   cursor: url('cursor.png') 40 40, auto;
@@ -134,18 +132,19 @@ button:hover {
   <h1>주문 안 하신<br>쓰레기 나왔습니다!</h1>
   <img src="bgtrash.png" style="width: 1520px; z-index: -1; top: -110px; left: 50%; transform: translateX(-50%); animation: spin 20s linear infinite;">
   <div style="position: absolute; left: 50%; transform: translateX(-50%); top: 520px; z-index: 1200;">
-    <button id="btn">Click to start</button>
+    <button id="btn">시작하기</button>
   </div>
 </div>
 
 <!-- 다른 이미지들은 main 외부에 두어 위치 고정 -->
-<img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">
-<img src="trash.png" class="rotate" style="width: 420px; z-index: 1000; top: 310px; left: 50%; transform: translateX(-50%);">      
-<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+  <img src="table.png" style="width: 100vw; z-index: 600; top: 40vw; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 31vw; left: 50%; transform: translateX(-50%);">
+<img src="trash.png" class="rotate" style="width: 420px; z-index: 1000; top: 35vh; left: 50%; transform: translateX(-50%);">      
 
-<img src="small1.png" class="jump" style="width: 240px; top: 520px; left: 50px;">
-<img src="small2.png" class="jump" style="width: 180px; top: 570px; left: 1230px;">
-<img src="small3.png" class="jump" style="width: 140px; top: 680px; left: 310px;">
+
+<img src="small1.png" class="jump" style="width: 240px; top: 35vw; left: 4vw;">
+<img src="small2.png" class="jump" style="width: 180px; top: 38vw; left: 81vw;">
+<img src="small3.png" class="jump" style="width: 140px; top: 43vw; left: 20vw;">
 
 
   <div id="wrapBox" class="wrap">

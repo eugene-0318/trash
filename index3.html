@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>주문 안 하신 쓰레기 나왔습니다</title>
-
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/sunghyunzz/eulyoo1945/eulyoo1945.css"/>
   <style>
 @font-face {
   font-family: 'HSBombaram';
@@ -12,10 +12,7 @@
   font-weight: normal;
   font-style: normal;
 }
-@font-face {
-  font-family: 'MaruBuri';
-  src: url('https://hangeul.pstatic.net/hangeul_static/webfont/MaruBuri/MaruBuri-Regular.woff2');
-}
+
 
 #loadingOverlay {
   position: fixed;
@@ -47,7 +44,7 @@
 
 body {
   text-align: center;
-  font-family: MaruBuri;
+  font-family:eulyoo1945;
   margin: 0;
   overflow: hidden;
   cursor: url('cursor.png') 40 40, auto;
@@ -69,9 +66,9 @@ h1 {
 }
 
 p {
-  font-family: 'MaruBuri';
+  font-family: 'eulyoo1945';
   font-weight: 400;
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.7;
 }
 .wrap {
@@ -164,7 +161,7 @@ button{cursor: url('cursor.png') 40 40, auto; z-index: 15000;}
   top: 85%;
   left: 87%;
   transform: translate(-50%, -50%);
-  font-family: MaruBuri;
+  font-family: eulyoo1945;
     margin-top: 30px;
     padding: 12px 30px;
     font-size: 18px;
@@ -191,11 +188,11 @@ button{cursor: url('cursor.png') 40 40, auto; z-index: 15000;}
   <div class="loadingText">Loading...</div>
 </div>
 <div>
-	<img src="table.png" style="width: 100vw; z-index: 600; top: 630px; left: 0px;">     
-<img src="dish.png" style="width: 800px; z-index: 900; top: 480px; left: 50%; transform: translateX(-50%);">
+  <img src="table.png" style="width: 100vw; z-index: 600; top: 40vw; left: 0px;">     
+<img src="dish.png" style="width: 800px; z-index: 900; top: 31vw; left: 50%; transform: translateX(-50%);">
 </div>
   <div id="wrapBox" class="wrap">
-    <p style="font-weight: 600; padding-bottom: 10px;">1st Main Menu</p>
+    <p style="font-weight: 600; padding-bottom: 10px;">메인 디시 1</p>
     <p>
     아무것도 안 해갈 수 없으니 뭐라도 초안을 만들어 봅니다.<br>이것저것 시도는 해 보고 있는데, 이렇게 하는 게 맞을까요?<br>만들수록 엉성해 보이기만 하고, 보는 사람이 뭘 원하는 지도 감이 잡히질 않습니다.<br>설익은 아이디어를 급하게 데쳐 낸 초안이 결과물로 탄생했습니다.
 
@@ -203,8 +200,8 @@ button{cursor: url('cursor.png') 40 40, auto; z-index: 15000;}
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 2000;">
-    <img src="main1.png" style="width: 580px; position: absolute; transform: translateX(-50%); top: 38%;" class="trash glitch">
-     <button id="next" class="next">Done!</button>
+    <img src="main1.png" style="width: 580px; position: absolute; transform: translateX(-50%); top: 37vh;" class="trash glitch">
+     <button id="next" class="next">다음으로</button>
   </div>
 
 
@@ -242,84 +239,81 @@ hint.addEventListener("click", () => {
 });
 
 const mainImage = document.querySelector('#mainscreen img');
-
-// 사용할 랜덤 색 리스트
 const colors = [
   "purple", "lightgreen","lightyellow", "yellowgreen", "white", "lime", "greenyellow"
 ];
-let clickCount = 0;  // 클릭 횟수 카운트
-const clickLimit = 10; // GIF 등장 조건
-const mainWrapper = document.getElementById('mainWrapper'); // wrapper 사용 시
+let clickCount = 0;
+const clickLimit = 10;
 
 mainImage.addEventListener('click', (e) => {
     clickCount++;
 
-// 클릭 시 '?' 퍼짐 + 글리치 효과
-mainImage.addEventListener('click', (e) => {
-  const x = e.clientX;
-  const y = e.clientY;
+    const x = e.clientX;
+    const y = e.clientY;
 
-  // 1. 클릭 글리치 효과
-  mainImage.classList.add('glitch');
-  setTimeout(() => mainImage.classList.remove('glitch'), 500);
+    // 1. 클릭 글리치 효과
+    mainImage.classList.add('glitch');
+    setTimeout(() => mainImage.classList.remove('glitch'), 500);
 
-  // 2. '?' 퍼짐 효과
-  const count = 15; // ? 개수
+    // 2. '?' 퍼짐 효과
+    const texts = ['?', '이게 맞나...', '아닌가 이건가?', '아닌 거 같은데...', '다시 해야겠다.', '?'];
+    const count = 15; // ? 개수
 
-  for (let i = 0; i < count; i++) {
-    const q = document.createElement('div');
-    q.className = 'question';
-     q.textContent = texts[Math.floor(Math.random() * texts.length)];
+    for (let i = 0; i < count; i++) {
+        const q = document.createElement('div');
+        q.className = 'question';
+        q.textContent = texts[Math.floor(Math.random() * texts.length)];
 
-    // 랜덤 크기 (20px~80px)
-    const size = 15 + Math.random() * 40;
-    q.style.fontSize = `${size}px`;
+        // 랜덤 크기 (20px~80px)
+        const size = 15 + Math.random() * 40;
+        q.style.fontSize = `${size}px`;
 
-    // 랜덤 색
-    const color = colors[Math.floor(Math.random() * colors.length)];
-    q.style.color = color;
+        // 랜덤 색
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        q.style.color = color;
 
-    // 생성 위치 = 클릭 지점
-    q.style.left = `${x}px`;
-    q.style.top = `${y}px`;
+        // 생성 위치 = 클릭 지점
+        q.style.left = `${x}px`;
+        q.style.top = `${y}px`;
 
-    document.body.appendChild(q);
+        document.body.appendChild(q);
 
-    // 화면 전체 퍼짐 위해 화면 대각선 길이 계산
-    const maxDistance = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2) * 0.5;
+        // 화면 전체 퍼짐 위해 화면 대각선 길이 계산
+        const maxDistance = Math.sqrt(window.innerWidth ** 2 + window.innerHeight ** 2) * 0.5;
 
-    // 퍼질 거리 (300px ~ 전체 화면)
-    const distance = 300 + Math.random() * (maxDistance - 300);
+        // 퍼질 거리 (300px ~ 전체 화면)
+        const distance = 300 + Math.random() * (maxDistance - 300);
 
-    // 랜덤 방향 (0~360°)
-    const angle = Math.random() * Math.PI * 2;
+        // 랜덤 방향 (0~360°)
+        const angle = Math.random() * Math.PI * 2;
 
-    const targetX = Math.cos(angle) * distance;
-    const targetY = Math.sin(angle) * distance;
+        const targetX = Math.cos(angle) * distance;
+        const targetY = Math.sin(angle) * distance;
 
-    // 이동 애니메이션 — 다음 프레임에 적용
-    requestAnimationFrame(() => {
-      q.style.transform = `translate(${targetX}px, ${targetY}px)`;
-    });
-  }
-});
-if(clickCount >= clickLimit) {
-        // GIF가 이미 있으면 다시 추가하지 않도록 체크
+        // 이동 애니메이션 — 다음 프레임에 적용
+        requestAnimationFrame(() => {
+            q.style.transform = `translate(${targetX}px, ${targetY}px)`;
+        });
+    }
+
+    // 3. 클릭 횟수 도달 시 GIF 등장
+    if(clickCount >= clickLimit) {
         if(!document.getElementById('backgroundGif')) {
             const bgGif = document.createElement('img');
-            bgGif.src = 'https://25.media.tumblr.com/tumblr_m9eero30hA1qzpy7ko1_500.gif';  // 실제 GIF 경로
+            bgGif.src = 'https://25.media.tumblr.com/tumblr_m9eero30hA1qzpy7ko1_500.gif';
             bgGif.id = 'backgroundGif';
             bgGif.style.position = 'fixed';
             bgGif.style.top = '0';
             bgGif.style.left = '0';
             bgGif.style.width = '100%';
             bgGif.style.height = '100%';
-            bgGif.style.zIndex = '500'; // mainScreen z-index보다 낮게
-            bgGif.style.pointerEvents = 'none'; // 클릭 방해 방지
+            bgGif.style.zIndex = '500';
+            bgGif.style.pointerEvents = 'none';
             document.body.appendChild(bgGif);
         }
     }
 });
+
                 next.addEventListener("click", () => {
                 window.location.href = "index4.html";
             });
