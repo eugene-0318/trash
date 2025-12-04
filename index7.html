@@ -132,15 +132,42 @@ p {
 }
 
 #mainscreen {
-  opacity: 0;
-  transition: opacity 0.8s ease;
-  position: absolute;
-  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: none; 
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
-
 .fade-in {
   opacity: 1 !important;
 }
+
+.final-webcam {
+  position: fixed;
+  width: 500px !important;
+  height: 300px !important;
+  object-fit: cover;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: block !important;
+  z-index: 2;
+}
+
+#endText {
+  position: fixed;
+  top: calc(50%); /* 웹캠 아래에 표시하고 싶으면 이 값 조정 */
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 50px;
+  color: white;
+  opacity: 0;
+  z-index: 10000;
+  pointer-events: none;
+  font-family: "HsBombaram";
+}
+
 button{cursor: url('cursor.png') 40 40, auto;}
 
 .next {
@@ -178,12 +205,11 @@ button{cursor: url('cursor.png') 40 40, auto;}
 <img src="dish.png" style="width: 800px; z-index: 900; top: 31vw; left: 50%; transform: translateX(-50%);">
 </div>
   <div id="wrapBox" class="wrap">
-  <video id="webcam" autoplay muted playsinline></video>
+  <video id="webcam" autoplay muted playsinline ></video>
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 2000;">
-<img id="coff" src="coff.png" style="transform: translateX(-50%); top: 59vh; left: 50%;width:330px;">
-
+    <div id="endText">끝</div>
 <div id="circle-wrap"></div>
   <button id="next" class="next">처음으로</button>
   </div>
@@ -200,72 +226,96 @@ window.addEventListener("load", () => {
   setTimeout(() => {
     overlay.style.opacity = "0";
     wrapBox.classList.add('fade-in');
-    setTimeout(() => {
-      overlay.style.display = "none";
-    }, 650);
+    setTimeout(() => overlay.style.display = "none", 650);
   }, MIN);
 });
 
 // 텍스트 데이터
 let data = "시그니처 코스가 모두 제공되었습니다.<br> 어떠셨나요? 입맛에 맞으셨나요?<br><br>여기서 제공되는 것들은 애초에 누구를 위해 만들어진 걸까요?<br>대체 왜 이런 걸 만드는지, 이것들에게 그만한 가치가 있는지<br>궁금해하실지도 모르겠습니다.ㅇ하지만, 지금 이 자리에서 이 모든 코스를 한 접시도 남김없이 맛본<br>여러분이 있습니다.<br>스스로 이 레스토랑 안으로 들어와,<br>무언가를 만들어내는 과정 속 쓴맛과 단맛을 끝까지 함께 음미해 주신 바로 여러분.ㅇ저희의 ‘쓰레기’들은 이렇게 누군가의 시간을 사로잡는 데 성공했습니다.<br>가던 길을 멈추고, 시선을 두고, 어떤 식으로든 여러분만의 감상을 떠올렸다면, <br>그것만으로도 그들은 존재의 의의를 갖는 것입니다.<br>혹시 아나요? 이것들이 누구에게 어떤 인상을 남길지.<br>그리고 또다시 이곳을 찾고 싶게 만들지.ㅇ이용에 감사드리며, 언제든 다시 방문해주시길 기대하겠습니다.<br>저희는 여전히, 그리고 계속해서, 아무도 주문하지 않은 무언가를 만들고 있을 테니까요.";
 
-// 'ㅇ' 기준으로 나누고 공백 제거
 let lyrics = data.split("ㅇ").filter(ch => ch.trim() !== "");
-
-// 현재 보여줄 인덱스
 let i = 0;
 
-// wrapBox 안에 텍스트 표시할 엘리먼트 생성
+// 텍스트 요소 생성
 let textEl = document.createElement('p');
 textEl.innerHTML = lyrics[i];
 wrapBox.insertBefore(textEl, hint);
 
-// 웹캠 스트림 상태
+// 웹캠 시작 여부
 let webcamStarted = false;
 
-// 다음 텍스트 보여주는 함수
+// 다음 텍스트 처리
 function showNext() {
   i++;
 
-  if (i < lyrics.length) {
-    // 이전 텍스트 fade out
-    textEl.classList.remove("fade-in");
-    textEl.classList.add("fade-out");
+  // 🔹 마지막 텍스트인 경우 → wrapBox → mainscreen 이동
+ // 마지막 텍스트인 경우 → wrapBox → mainscreen 이동
+if (i >= lyrics.length) {
+  wrapBox.classList.add("fade-out");
+  setTimeout(() => {
+    wrapBox.style.display = "none";
 
-    setTimeout(() => {
-      // 다음 텍스트로 교체 후 fade in
-      textEl.innerHTML = lyrics[i];
-      textEl.classList.remove("fade-out");
-      textEl.classList.add("fade-in");
+    // 🔹 mainscreen 중앙 정렬 활성화
+    mainScreen.style.display = "flex";
+    mainScreen.classList.add("fade-in");
 
-      // 첫 텍스트 이후부터 웹캠 표시
-      if (i > 0 && !webcamStarted) {
-        webcamStarted = true;
-        webcam.style.display = "block";
+    // 🔹 웹캠 컨테이너 생성 (wrapbox 때 크기 유지)
+    const camContainer = document.createElement("div");
+    camContainer.style.width = "500px";
+    camContainer.style.height = "300px";
+    camContainer.style.position = "relative";
 
-        // 스트림 연결
-        (async () => {
-          try {
-            const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            webcam.srcObject = stream;
-          } catch (err) {
-            console.error("웹캠 접근 실패:", err);
-          }
-        })();
+    // webcam 이동
+    camContainer.appendChild(webcam);
+    mainScreen.appendChild(camContainer);
+
+    // 🔹 End 텍스트
+    const endText = document.createElement("div");
+    endText.innerText = "End.";
+    endText.style.position = "absolute";
+    endText.style.top = "50%";
+    endText.style.left = "50%";
+    endText.style.transform = "translate(-50%, -50%)";
+    endText.style.fontSize = "40px";
+    endText.style.color = "#fff";
+    endText.style.textShadow = "0 0 10px #000";
+    camContainer.appendChild(endText);
+  }, 800);
+
+  return;
+}
+
+
+  // 🔹 텍스트 변경 애니메이션
+  textEl.classList.remove("fade-in");
+  textEl.classList.add("fade-out");
+
+  setTimeout(() => {
+    textEl.innerHTML = lyrics[i];
+    textEl.classList.remove("fade-out");
+    textEl.classList.add("fade-in");
+  }, 300);
+
+  // 🔹 두 번째 텍스트부터 웹캠 시작
+  if (i === 1 && !webcamStarted) {
+    webcamStarted = true;
+    webcam.style.display = "block";
+
+    (async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: 500, height: 300 },
+          audio: false
+        });
+        webcam.srcObject = stream;
+      } catch (err) {
+        console.error("웹캠 접근 실패:", err);
       }
-    }, 600);
-
-  } else {
-    // 마지막 텍스트 이후 wrapBox 숨기고 mainscreen 등장
-    wrapBox.classList.add("fade-out");
-    setTimeout(() => {
-      wrapBox.style.display = "none";
-      mainScreen.classList.add("fade-in");
-    }, 800);
+    })();
   }
 }
 
-// hint 클릭 시 showNext 실행
+// 이벤트 바인딩
 hint.addEventListener("click", showNext);
 
 // 다음 페이지 버튼
@@ -273,6 +323,7 @@ document.getElementById('next').addEventListener("click", () => {
   window.location.href = "index7.html";
 });
 </script>
+
 
 
 </body>
