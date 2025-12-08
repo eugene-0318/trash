@@ -124,6 +124,13 @@ button:hover {
   75%  { transform: translateX(-50%) rotate(-3deg); }
   100% { transform: translateX(-50%) rotate(0deg); }
 }
+
+#scene {
+  position: relative;
+  width: 1400px;     /* 디자인 기준 원본 화면 너비 */
+  height: 900px;     /* 디자인 기준 원본 화면 높이 */
+  margin: 0 auto;
+  
 </style>
 </head>
 <body>
@@ -143,18 +150,18 @@ button:hover {
 
 
 <img src="small1.png" class="jump" style="width: 240px; top: 35vw; left: 4vw;">
-<img src="small2.png" class="jump" style="width: 180px; top: 38vw; left: 81vw;">
-<img src="small3.png" class="jump" style="width: 140px; top: 43vw; left: 20vw;">
+<img src="small2.png" class="jump" style="width: 180px; top: 38vw; left: 85vw; z-index: 10000;">
+<img src="small3.png" class="jump" style="width: 140px; top: 29vw; left: 10vw; z-index: 1000;">
+<img src="small4.png" class="jump" style="width: 140px; top: 34vw; left: 78vw;">
+<img src="small5.png" class="jump" style="width: 140px; top: 43vw; left: 20vw;">
+<img src="small6.png" class="jump" style="width: 140px; top: 45vw; left: 3vw;">
+<img src="small7.png" class="jump" style="width: 140px; top: 38vw; left: 72vw;">
 
 
   <div id="wrapBox" class="wrap">
   	<p style="font-weight: 600; padding-bottom: 10px;">"주문 안 하신 쓰레기 나왔습니다!"</p>
     <p>
-      저희 레스토랑에서는 최선을 다해 정성껏 빚은 쓰레기들을 제공합니다.<br>
-      주문하신 적이 없다고요? 당신이 주문했든 아니든 이것들은 세상에 나와 존재합니다.<br>
-      고로 자신들을 음미해줄 이들을 필요로 하지요.<br>
-      누군가의 피땀과 정성이 어린, 그러나 빛을 보지 못한 소소하고 귀한 재료들.<br>
-      천천히 곱씹으며 그 맛을 함께 즐겨 주시면 감사하겠습니다.
+      우리는 늘상 아무도 주문한 적 없는 무언가들을 만들어냅니다.<br>실용성이 없어 일명 '쓰레기'라고도 불리는 이것들은 본래 그 누구도 원한 적 없었던 것들이지요.<br>그러나 이런 것들이 빚어지기까지 수 차례의 작업, 그리고 그 과정에서 나오는 단맛과 쓴맛이 존재합니다.<br><br>그러나...이 고충을 누가 알아 줄까요?<br>과정은 고사하고 결과물조차 제대로 조명받기 어렵습니다.<br><br>그렇기에, 저희는 이들을 모두 한데 모아 하나의 코스요리로 제공합니다.<br>하나하나 곱씹으며 즐겨 주시면 되겠습니다.
     </p>
     <div id="hint" class="hint">계속 ▸</div>
   </div>

@@ -226,7 +226,19 @@ window.addEventListener("load", () => {
 coff.addEventListener('click', () => {
   clickCount++;
 
-  const baseText = `우리는 조금 전까지 뭘 해왔던 걸까요?`;
+  // ✨ 여러 문구를 배열로 저장
+  const texts = [
+    '우리는 조금 전까지 뭘 해왔던 걸까요?',
+    '끝났다...진짜 끝났나?',
+    '이제 뭘 하면 되지?',
+    '조금 허무하네.',
+    '이렇게 끝난다고?',
+    '후련한가? 기쁜가?'
+  ];
+
+  // ✨ 배열 중 랜덤 1개 선택
+  const baseText = texts[Math.floor(Math.random() * texts.length)];
+
   const chars = baseText.split("");
 
   // 🔥 원형 텍스트 그룹 생성
@@ -242,18 +254,17 @@ coff.addEventListener('click', () => {
   ring.style.width = radius * 2 + 'px';
   ring.style.height = radius * 2 + 'px';
 
-  // 🔥 3) 랜덤 위치 (중심 기준에서 ±30vw, ±30vh)
-const maxX = window.innerWidth - radius * 2;
-const maxY = window.innerHeight - radius * 2;
+  // 🔥 3) 랜덤 위치
+  const maxX = window.innerWidth - radius * 2;
+  const maxY = window.innerHeight - radius * 2;
+  const posX = Math.random() * maxX;
+  const posY = Math.random() * maxY;
 
-const posX = Math.random() * maxX;
-const posY = Math.random() * maxY;
-
-ring.style.left = posX + 'px';
-ring.style.top = posY + 'px';
+  ring.style.left = posX + 'px';
+  ring.style.top = posY + 'px';
 
   // 🔥 4) 랜덤 폰트 크기
-  const fontSize = Math.floor(Math.random() * 30) + 18; // 18~28px
+  const fontSize = Math.floor(Math.random() * 30) + 18; // 18~48px
 
   // 🔥 5) 원형 텍스트 배치
   const totalChars = chars.length;
@@ -266,8 +277,6 @@ ring.style.top = posY + 'px';
     span.style.fontSize = fontSize + 'px';
 
     const angle = i * angleStep;
-
-    /* 글자 회전 + 원둘레 배치 */
     span.style.transform =
       `rotate(${angle}deg) translate(${radius}px) rotate(90deg)`;
 

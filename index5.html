@@ -286,33 +286,30 @@ sugarImg.style.filter = `
   }
 
 
-window.addEventListener("mousemove", e=>{
-        const mouseX = e.clientX;
-        const mouseY = e.clientY;
+window.addEventListener("mousemove", e => {
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
 
-        // 10% 확률로 토핑 생성
-        if(Math.random()<0.1){
-            const topImg = document.createElement("img");
-            topImg.src = toppings[Math.floor(Math.random()*toppings.length)];
-            topImg.style.position="fixed";
-            topImg.style.left = `${mouseX-15+(Math.random()-0.5)*30}px`;
-            topImg.style.top = `${mouseY-15+(Math.random()-0.5)*30}px`;
-            topImg.style.width="150px";
-            topImg.style.pointerEvents="none";
-            topImg.style.zIndex="1500";
-            topImg.style.opacity="1";
-            topImg.style.transition="transform 0.8s ease-out, opacity 0.8s ease-out";
-            document.body.appendChild(topImg);
+    if (Math.random() < 0.3) {   // 10% 확률 유지
+        const topImg = document.createElement("img");
+        topImg.src = toppings[Math.floor(Math.random()*toppings.length)];
+        topImg.style.position="fixed";
+        topImg.style.left = `${mouseX - 15 + (Math.random()-0.5)*30}px`;
+        topImg.style.top = `${mouseY - 15 + (Math.random()-0.5)*30}px`;
+        topImg.style.width = "150px";
+        topImg.style.pointerEvents = "none";
+        topImg.style.zIndex = "1500";
+        topImg.style.opacity = "1";
+        topImg.style.transition = "transform 0.8s ease-out, opacity 0.8s ease-out";
+        document.body.appendChild(topImg);
 
-            setTimeout(()=>{
-    // opacity는 바로 1로 유지
-    topImg.style.opacity="1";
-},50);
+        setTimeout(() => {
+            topImg.style.opacity = "1";
+        }, 50);
 
-// 1.8초 후 제거 (기존 0.9초 → 1.8초)
-setTimeout(()=>topImg.remove(),1800);
-        }
-    });
+        setTimeout(() => topImg.remove(), 1800);
+    }
+});
 
   },650);
 

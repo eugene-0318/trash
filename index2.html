@@ -122,30 +122,64 @@ p {
 	filter: drop-shadow(0px 0px 10px black)
 }
 
-.smoke {
-  position: fixed; /* body 전체 기준 */
-  left: 0;
-  top: 0;
-  width: 80vw;    
-  height: 80vh;  
-  pointer-events: none;
-  background-image:url(smoke.png); no-repeat center/cover;
-  opacity: 0.5;
-  animation: rise 4s linear forwards;
+#circleWrap {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: auto; /* 빈 자리 클릭 받기 */
+  z-index: 100;
+  height: 600px;
 }
 
-@keyframes rise {
-  0% {
-    transform: translateY(50%) scale(1);
-    opacity: 0;
-  }
-  50% {
-    opacity: 0.5;
-  }
-  100% {
-    transform: translateY(-50%) scale(1.2);
-    opacity: 0;
-  }
+.circle {
+  position: absolute;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.25);
+  filter: blur(12px);
+  transition: opacity 0.6s ease; /* 위치/transform은 JS에서 처리 */
+  will-change: transform, left, top, opacity;
+  backface-visibility: hidden;
+}
+
+.floating-text {
+  position: absolute;
+  font-size: 20px;
+  color: white;
+  animation: fadeUp 1.5s ease forwards;
+}
+
+@keyframes fadeUp {
+  0% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-20px); }
+}
+
+@keyframes floatMove {
+  0% { transform: translate(0px, 0px); }
+  50% { transform: translate(20px, -25px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  transition: opacity 0.6s ease;
+}
+
+.particle.img {
+  filter: none;
+  border-radius: 0;
+}
+
+.float-img {
+  position: absolute;
+  width: 80px;     /* 반드시 크기 명시 */
+  height: 80px;
+  object-fit: contain;
+  pointer-events: none;
+  z-index: 5;      /* 원보다 위 */
+  transition: transform 0.25s ease-out;
 }
 
 button{cursor: url('cursor.png') 40 40, auto;}
@@ -189,125 +223,306 @@ button{cursor: url('cursor.png') 40 40, auto;}
   <div id="wrapBox" class="wrap">
   	<p style="font-weight: 600; padding-bottom: 10px;">애피타이저</p>
     <p>
-      피조물의 탄생에는 늘 고뇌와 밤샘이 함께하죠.<br>본격적인 작업을 시작하기도 전에 아이디어가 떠오르지 않아 갑갑한 마음,<br>다들 한번쯤 경험해 보신 적 있지 않나요?<br>답답한 마음을 달래고자 피운 담배꽁초에<br>잠을 쫓기 위해 커피를 마시고 남은 플라스틱 잔을 곁들이면<br>그 마음을 표현하기에는 부족함이 없습니다.
+      피조물의 탄생에는 늘 고뇌와 밤샘이 함께하죠.<br>본격적인 작업을 시작하기도 전에 아이디어가 떠오르지 않아 안개가 낀 것처럼 갑갑한 마음,<br>다들 한번쯤 경험해 보신 적 있지 않나요?<br>답답한 마음을 달래고자 피운 담배꽁초에<br>잠을 쫓기 위해 커피를 마시고 남은 플라스틱 잔을 곁들이면<br>그 마음을 표현하기에는 부족함이 없습니다.
     </p>
     <div id="hint" class="hint">계속 ▸</div>
   </div>
   <div id="mainscreen" style="z-index: 950;">
   	<img src="cig 1.png" style="width: 150px; top: 79vh;
-  left: 42vw; transform: translate(-50%, -50%); z-index: 1002;" class="trash2">
+  left: 42vw; transform: translate(-50%, -50%); z-index: 1002;" class="trash2" id="cig">
   	<img src="cig 2.png" style="width: 200px; top: 79vh;
-  left: 56vw; transform: translate(-50%, -50%); z-index: 1001;" class="trash2">
+  left: 56vw; transform: translate(-50%, -50%); z-index: 1001;" class="trash2" id="cig">
   	<img src="cup1.png" style="width: 230px; top: 62vh;
-  left: 44vw; transform: translate(-50%, -50%); z-index: 999;" class="trash">
+  left: 44vw; transform: translate(-50%, -50%); z-index: 999;" class="trash" id="cup">
   	<img src="cup2.png" style="width: 180px; top: 64vh;
-  left: 54vw; transform: translate(-50%, -50%); z-index: 1000;" class="trash">
+  left: 54vw; transform: translate(-50%, -50%); z-index: 1000;" class="trash" id="cup">
+<div id="circleWrap" style="position:fixed; inset:0; z-index: -1; pointer-events:auto;"></div>
+
   	 <button id="next" class="next">다음으로</button>
 
   </div>
 <script>
-  const hint = document.getElementById('hint');
-  const wrapBox = document.getElementById('wrapBox');
-  const mainScreen = document.getElementById('mainscreen');
-  const overlay = document.getElementById('loadingOverlay');
+/* ──────────────────────────
+   기본 요소 가져오기
+────────────────────────── */
+const hint = document.getElementById('hint');
+const wrapBox = document.getElementById('wrapBox');
+const mainScreen = document.getElementById('mainscreen');
+const overlay = document.getElementById('loadingOverlay');
 
-  /* 로딩 처리: 오버레이 fade-out 과 동시에 wrap fade-in */
-  window.addEventListener("load", () => {
-    const MIN = 1000; // 최소 1.5초
-    setTimeout(() => {
-      // 오버레이를 서서히 사라지게
-      overlay.style.opacity = "0";
+const cupElements = document.querySelectorAll(".trash");
+const cigElements = document.querySelectorAll(".trash2");
+const nextBtn = document.getElementById('next');
 
-      // wrap을 동시에 서서히 보이게
-      wrapBox.classList.add('fade-in');
+const circleWrap = document.getElementById("circleWrap");
 
-      // 오버레이를 DOM에서 제거(transition 시간과 같거나 약간 더 길게)
-      setTimeout(() => {
-        overlay.style.display = "none";
-      }, 650); 
-    }, MIN);
-  });
+/* 사용될 이미지 목록 */
+const imgList = [
+  "sleepy1.png",
+  "sleepy2.png",
+  "sleepy3.png"
+];
 
-  /* hint 클릭 → wrap 사라지고 mainscreen 나타남 */
- hint.addEventListener("click", () => {
-    // wrapBox가 보여진 상태인지 확인 후 fade-out
-    wrapBox.classList.remove("fade-in"); // 필요 시 제거
-    wrapBox.classList.add("fade-out");
-    
-    setTimeout(() => {
-      wrapBox.style.display = "none";
-      mainScreen.classList.add("fade-in");
-    }, 650); // fade-out 시간과 동일
-});
+/* 이미지가 섞여 나오는 비율 (0.2 = 20% 확률로 이미지 생성) */
+let imageSpawnRate = 0.25;
 
-    // 연기 생성 함수 (여러 입자)
-function createFullScreenSmoke(count = 50) {
-  const vw = window.innerWidth;
-  const vh = window.innerHeight;
+/* 이미지의 z-index 기본 값 (원보다 위/아래로 조정 가능) */
+let imageBaseZ = 40;
 
-  for (let i = 0; i < count; i++) {
-    const smoke = document.createElement("div");
-    smoke.classList.add("smoke");
-
-    // 화면 전체 랜덤 위치
-    smoke.style.left = `${Math.random() * vw}px`;
-    smoke.style.top = `${Math.random() * vh}px`;
-
-    // 랜덤 크기, 속도, 회전
-    const scale = 0.5 + Math.random() * 1.5;
-    const duration = 2 + Math.random() * 3; // 2~5초
-    const rotation = Math.random() * 360;
-
-    smoke.style.transform = `scale(${scale}) rotate(${rotation}deg)`;
-    smoke.style.animationDuration = `${duration}s`;
-
-    document.body.appendChild(smoke);
-
-    smoke.addEventListener("animationend", () => smoke.remove());
-  }
+/* 원은 z-index 1~30, 이미지 z-index는 imageBaseZ ~ imageBaseZ+30 */
+if (!circleWrap) {
+  console.error("circleWrap 요소가 없습니다. HTML에 <div id='circleWrap'> 추가하세요.");
 }
 
-// cig 클릭 이벤트
-document.querySelectorAll(".trash2").forEach(img => {
-  img.addEventListener("click", () => {
-    createFullScreenSmoke(60); // 한 번에 60개의 입자
+/* ──────────────────────────
+   로딩 처리
+────────────────────────── */
+window.addEventListener("load", () => {
+  const MIN = 1000;
+  setTimeout(() => {
+    overlay.style.opacity = "0";
+    wrapBox.classList.add('fade-in');
+    setTimeout(() => overlay.style.display = "none", 650);
+  }, MIN);
+});
+
+/* hint 클릭 → wrap 사라지고 mainscreen 등장 */
+hint.addEventListener("click", () => {
+  wrapBox.classList.remove("fade-in");
+  wrapBox.classList.add("fade-out");
+  setTimeout(() => {
+    wrapBox.style.display = "none";
+    mainScreen.classList.add("fade-in");
+  }, 650);
+});
+
+
+/* ──────────────────────────
+   🔥 원 + 이미지 객체 통합 관리
+────────────────────────── */
+let objects = [];  // 원 + 이미지 모두 포함
+let defaultCircleCount = 80;
+
+/* 🎨 색상 팔레트 */
+const colorPalette = ["lightslategray", "darkslategray", "slategray", "black"];
+let currentColorIndex = 0;
+let circleColor = colorPalette[currentColorIndex];
+
+/* 말풍선 랜덤 문구 */
+const texts = [
+  "음... 아니야.",
+  "다시 생각해보자.",
+  "흠…",
+  "이건 아닌데.",
+  "음, 글쎄."
+];
+
+/* 유틸 */
+const rand = (min, max) => Math.random() * (max - min) + min;
+const pick = (arr) => arr[Math.floor(Math.random() * arr.length)];
+
+
+/* ──────────────────────────
+   🔥 원/이미지 생성 함수
+────────────────────────── */
+function createFloatingObject() {
+  const isImage = Math.random() < imageSpawnRate;
+  const size = rand(40, 110);
+
+  const x = rand(0, circleWrap.clientWidth - size);
+  const y = rand(0, circleWrap.clientHeight - size);
+
+  let el;
+
+  if (isImage) {
+    el = document.createElement("img");
+    el.className = "float-img";
+    el.src = pick(imgList);
+
+    el.style.width = size + "px";
+    el.style.height = "auto";
+
+    /* 이미지 z-index 레이어 */
+    el.style.zIndex = imageBaseZ + Math.floor(rand(0, 30));
+
+  } else {
+    el = document.createElement("div");
+    el.className = "circle";
+    el.style.backgroundColor = circleColor;
+    el.style.width = size + "px";
+    el.style.height = size + "px";
+
+    /* 원은 낮은 레이어 */
+    el.style.zIndex = Math.floor(rand(1, 30));
+  }
+
+  el.style.position = "absolute";
+  el.style.left = x + "px";
+  el.style.top = y + "px";
+  el.style.opacity = "0";
+  el.style.transition = "opacity 800ms ease";
+  el.style.pointerEvents = "none";
+
+  circleWrap.appendChild(el);
+
+  objects.push({
+    type: isImage ? "img" : "circle",
+    el,
+    size,
+    baseX: x,
+    baseY: y,
+    x,
+    y,
+    vx: rand(-0.03, 0.03),
+    vy: rand(-0.03, 0.03),
+    freq: rand(0.0006, 0.0016),
+    amp: rand(4, 14),
+    phase: rand(0, Math.PI * 2),
+    offsetX: 0,
+    offsetY: 0
+  });
+
+  requestAnimationFrame(() => {
+    el.style.opacity = "1";
+  });
+}
+
+
+/* ──────────────────────────
+   🔥 초기 원/이미지 구성
+────────────────────────── */
+function initObjects() {
+  for (let i = 0; i < defaultCircleCount; i++) {
+    createFloatingObject();
+  }
+}
+initObjects();
+
+
+/* ──────────────────────────
+   🔥 애니메이션 루프
+────────────────────────── */
+let lastTime = performance.now();
+
+function animate(time) {
+  const dt = Math.min(time - lastTime, 40);
+  lastTime = time;
+
+  const W = circleWrap.clientWidth;
+  const H = circleWrap.clientHeight;
+
+  objects.forEach((o) => {
+
+    o.baseX += o.vx * dt;
+    o.baseY += o.vy * dt;
+
+    if (o.baseX < 0) { o.baseX = 0; o.vx *= -1; }
+    if (o.baseY < 0) { o.baseY = 0; o.vy *= -1; }
+    if (o.baseX > W - o.size) { o.baseX = W - o.size; o.vx *= -1; }
+    if (o.baseY > H - o.size) { o.baseY = H - o.size; o.vy *= -1; }
+
+    const wobX = Math.sin(time * o.freq + o.phase) * o.amp;
+    const wobY = Math.cos(time * o.freq + o.phase * 0.7) * (o.amp / 2);
+
+    o.x = o.baseX + wobX;
+    o.y = o.baseY + wobY;
+
+    o.offsetX *= 0.9;
+    o.offsetY *= 0.9;
+
+    o.el.style.left = o.x + "px";
+    o.el.style.top = o.y + "px";
+    o.el.style.transform = `translate(${o.offsetX}px, ${o.offsetY}px)`;
+  });
+
+  requestAnimationFrame(animate);
+}
+requestAnimationFrame(animate);
+
+
+/* ──────────────────────────
+   🔥 마우스 회피
+────────────────────────── */
+document.addEventListener("mousemove", (e) => {
+  const mx = e.clientX;
+  const my = e.clientY;
+  const fleeRadius = 280;
+  const pushMax = 180;
+
+  objects.forEach((o) => {
+    const cx = o.x + o.size / 2;
+    const cy = o.y + o.size / 2;
+    const dx = cx - mx;
+    const dy = cy - my;
+    const dist = Math.hypot(dx, dy);
+
+    if (dist < fleeRadius) {
+      const ang = Math.atan2(dy, dx);
+      const push = (1 - dist / fleeRadius) * pushMax;
+
+      o.offsetX = o.offsetX * 0.7 + Math.cos(ang) * push * 0.3;
+      o.offsetY = o.offsetY * 0.7 + Math.sin(ang) * push * 0.3;
+    }
   });
 });
 
- function createTiredBackground() {
-      const images = ['tired1.png', 'tired2.png', 'tired3.png'];
-      const img = images[Math.floor(Math.random() * images.length)];
 
-      const bg = document.createElement('div');
-      bg.style.position = 'fixed';
-      bg.style.inset = '0';
-      bg.style.backgroundImage = `url(${img})`;
-      bg.style.backgroundSize = 'cover';
-      bg.style.backgroundPosition = 'center';
-      bg.style.backgroundRepeat = 'no-repeat';
-      bg.style.opacity = '0';
-      bg.style.zIndex = '-1';
-      bg.style.transition = 'opacity 0.8s ease';
+/* ──────────────────────────
+   🔥 빈 공간 클릭 → 텍스트 표시
+────────────────────────── */
+circleWrap.addEventListener("click", (e) => {
+  const t = document.createElement("div");
+  t.className = "floating-text";
+  t.innerText = pick(texts);
+  t.style.position = "fixed";
+  t.style.left = e.clientX + "px";
+  t.style.top = e.clientY + "px";
+  t.style.zIndex = 99999;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 1500);
+});
 
-      document.body.appendChild(bg);
 
-      requestAnimationFrame(() => bg.style.opacity = '1');
+/* ──────────────────────────
+   🔥 cup 클릭 → 원 색 변경
+────────────────────────── */
+cupElements.forEach((el) => {
+  el.addEventListener("click", (e) => {
+    currentColorIndex = (currentColorIndex + 1) % colorPalette.length;
+    circleColor = colorPalette[currentColorIndex];
 
-      setTimeout(() => {
-        bg.style.opacity = '0';
-        bg.addEventListener('transitionend', () => bg.remove());
-      }, 1500);
-    }
-
-    document.querySelectorAll('.trash').forEach(img => {
-      img.addEventListener('click', () => createTiredBackground());
+    objects.forEach((o) => {
+      if (o.type === "circle") {
+        o.el.style.backgroundColor = circleColor;
+      }
     });
 
-                next.addEventListener("click", () => {
-                window.location.href = "index3.html";
-            });
+    e.stopPropagation();
+  });
+});
 
+
+/* ──────────────────────────
+   🔥 cig 클릭 → 새 객체 생성 (비율 동일)
+────────────────────────── */
+cigElements.forEach((el) => {
+  el.addEventListener("click", (e) => {
+    for (let i = 0; i < 20; i++) {
+      createFloatingObject();
+    }
+    e.stopPropagation();
+  });
+});
+
+
+/* ───────── next 버튼 ───────── */
+nextBtn.addEventListener("click", () => {
+  window.location.href = "index3.html";
+});
 </script>
+
+
+
 
 </body>
 </html>
